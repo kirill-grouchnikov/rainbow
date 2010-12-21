@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="rainbow" default="all">
+	<property file="local.build.properties" />
+	<property file="build.properties" />
+
+	<!-- Compiler options -->
+	<property name="compiler.debug" value="on" />
+	<property name="compiler.generate.no.warnings" value="off" />
+	<property name="compiler.args" value="" />
+	<property name="compiler.max.memory" value="128m" />
+	<patternset id="compiler.excluded" />
+	<patternset id="compiler.resources">
+		<include name="**/?*.properties" />
+		<include name="**/?*.xml" />
+		<include name="**/?*.gif" />
+		<include name="**/?*.png" />
+		<include name="**/?*.jpeg" />
+		<include name="**/?*.jpg" />
+		<include name="**/?*.html" />
+		<include name="**/?*.dtd" />
+		<include name="**/?*.tld" />
+		<include name="**/?*.ttf" />
+		<include name="**/?*.svg" />
+	</patternset>
+	<!-- JDK definitions -->
+
+	<path id="jdk.classpath">
+		<fileset dir="${jdk.home}">
+			<include name="jre/lib/charsets.jar" />
+			<include name="jre/lib/deploy.jar" />
+			<include name="jre/lib/javaws.jar" />
+			<include name="jre/lib/jce.jar" />
+			<include name="jre/lib/jsse.jar" />
+			<include name="jre/lib/plugin.jar" />
+			<include name="jre/lib/rt.jar" />
+			<include name="jre/lib/ext/dnsns.jar" />
+			<include name="jre/lib/ext/localedata.jar" />
+			<include name="jre/lib/ext/sunjce_provider.jar" />
+			<include name="jre/lib/ext/sunpkcs11.jar" />
+		</fileset>
+	</path>
+
+	<property name="project.jdk.home" value="${jdk.home}" />
+	<property name="project.jdk.classpath" value="jdk.classpath" />
+	<!-- Project Libraries -->
+	<!-- Global Libraries -->
+
+	<dirname property="module.rainbow.basedir" file="${ant.file}" />
+
+	<property name="javac.args.rainbow" value="${javac.args}" />
+
+	<property name="rainbow.build.dir" value="${module.rainbow.basedir}/build/" />
+	<property name="rainbow.output.dir" value="${rainbow.build.dir}/classes" />
+	<property name="rainbow.drop.dir" value="${module.rainbow.basedir}/drop" />
+	<property name="rainbow.lib.dir" value="${module.rainbow.basedir}/lib" />
+	<property name="rainbow.src.dir" value="${module.rainbow.basedir}/src/" />
+	<property name="rainbow.version" value="1.3" />
+	<property name="rainbow.versionKey" value="1.3dev Darkstone" />
+
+	<property name="flamingo.dir" value="${module.rainbow.basedir}/../flamingo" />
+	<property name="substance.dir" value="${module.rainbow.basedir}/../substance" />
+	<property name="trident.dir" value="${module.rainbow.basedir}/../trident" />
+
+	<path id="rainbow.module.bootclasspath">
+		<!-- Paths to be included in compilation bootclasspath -->
+	</path>
+
+	<property name="module.jdk.home.rainbow" value="${project.jdk.home}" />
+	<property name="module.jdk.classpath.rainbow" value="${project.jdk.classpath}" />
+
+	<path id="rainbow.module.classpath">
+		<path refid="${module.jdk.classpath.rainbow}" />
+		<pathelement location="${rainbow.lib.dir}/jxlayer.jar" />
+		<pathelement location="${rainbow.lib.dir}/filters.jar" />
+        <pathelement location="${rainbow.lib.dir}/jsyntaxpane-0.9.4.jar" />
+		<pathelement location="${flamingo.dir}/lib/batik-all.jar" />
+		<pathelement location="${flamingo.dir}/lib/forms-1.2.0.jar" />
+		<pathelement location="${flamingo.dir}/lib/js.jar" />
+		<pathelement location="${flamingo.dir}/lib/pdf-transcoder.jar" />
+		<pathelement location="${flamingo.dir}/lib/svnkit.jar" />
+		<pathelement location="${flamingo.dir}/lib/xerces_2_5_0.jar" />
+		<pathelement location="${flamingo.dir}/lib/xml-apis-ext.jar" />
+		<pathelement location="${flamingo.dir}/lib/xml-apis.jar" />
+		<pathelement location="${flamingo.dir}/drop/flamingo.jar" />
+		<pathelement location="${substance.dir}/drop/substance.jar" />
+		<pathelement location="${trident.dir}/drop/trident.jar" />
+	</path>
+
+	<patternset id="excluded.from.module.rainbow" />
+
+	<patternset id="excluded.from.compilation.rainbow">
+		<patternset refid="excluded.from.module.rainbow" />
+		<patternset refid="compiler.excluded" />
+	</patternset>
+
+	<path id="rainbow.module.sourcepath">
+		<dirset dir="${rainbow.src.dir}">
+			<include name="org/pushingpixels/rainbow" />
+		</dirset>
+	</path>
+
+	<target name="compile.module.rainbow" depends="compile.module.rainbow.production" description="compile module rainbow" />
+
+	<target name="compile.module.rainbow.production" description="compile module rainbow production classes">
+		<mkdir dir="${rainbow.output.dir}" />
+		<javac destdir="${rainbow.output.dir}" encoding="${javac.encoding}" debug="${javac.debug}" nowarn="${javac.generate.no.warnings}" memoryMaximumSize="${javac.max.memory}" fork="true" executable="${module.jdk.home.rainbow}/bin/javac">
+			<compilerarg line="${javac.args.rainbow}" />
+			<bootclasspath refid="rainbow.module.bootclasspath" />
+			<classpath refid="rainbow.module.classpath" />
+			<src refid="rainbow.module.sourcepath" />
+			<patternset refid="excluded.from.compilation.rainbow" />
+		</javac>
+		<copy todir="${rainbow.output.dir}">
+			<fileset dir="${rainbow.src.dir}">
+				<patternset refid="compiler.resources" />
+				<type type="file" />
+				<patternset refid="excluded.from.compilation.rainbow" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="clean.module.rainbow" description="cleanup module">
+		<delete dir="${rainbow.output.dir}" />
+	</target>
+
+	<target name="init" description="Build initialization">
+		<!-- Perform any build initialization in this target -->
+	</target>
+
+	<target name="jar-bin" description="create runtime jar">
+		<mkdir dir="${rainbow.drop.dir}" />
+		<delete file="${rainbow.drop.dir}/rainbow.jar" />
+		<jar compress="true" destfile="${rainbow.drop.dir}/rainbow.jar">
+			<fileset dir="${rainbow.output.dir}/" />
+			<fileset dir="${module.rainbow.basedir}/" includes="resources/**" />
+			<manifest>
+				<attribute name="Rainbow-Version" value="${rainbow.versionKey}" />
+				<attribute name="Rainbow-BuildStamp" value="${build.time}" />
+				<attribute name="Main-Class" value="org.jvnet.rainbow.RainbowViewer" />
+				<attribute name="Class-Path" value="../lib/batik-all.jar ../lib/flamingo.jar ../lib/js.jar ../lib/jxlayer.jar ../lib/pdf-transcoder.jar ../lib/substance.jar ../lib/substance-flamingo.jar ../lib/xerces_2_5_0.jar ../lib/filters.jar ../lib/forms-1.1.0.jar ../lib/svnkit.jar ../lib/xml-apis.jar ../lib/xml-apis-ext.jar" />
+			</manifest>
+		</jar>
+		<copy file="${rainbow.drop.dir}/rainbow.jar" todir="${module.rainbow.basedir}/www/webstart" />
+	</target>
+
+	<target name="distro" description="create distribution">
+		<delete file="${module.rainbow.basedir}/rainbow-all.zip" />
+		<zip destfile="${module.rainbow.basedir}/rainbow-all.zip" compress="true">
+			<fileset dir="${module.rainbow.basedir}">
+				<include name="lib/**" />
+				<include name="src/**" />
+				<include name="www/index.html" />
+				<include name="www/docs/**" />
+				<include name="www/images/**" />
+				<include name="build.xml" />
+				<include name="build.properties" />
+			</fileset>
+		</zip>
+	</target>
+
+	<target name="jar" depends="jar-bin" description="create all jars" />
+
+	<target name="clean" depends="clean.module.rainbow" description="cleanup all" />
+
+	<target name="timestamp">
+		<tstamp>
+			<format property="build.time" pattern="MMMM d, yyyy hh:mm:ss z" />
+		</tstamp>
+		<echo message="Beginning build: ${build.time}" />
+		<echo message="Java home: ${java.home}" />
+		<echo message="Java version: ${ant.java.version}" />
+		<echo message="Ant version: ${ant.version}" />
+	</target>
+
+	<target name="all" depends="timestamp, init, clean, compile.module.rainbow, jar" description="build all" />
+</project>

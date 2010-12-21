@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="lib/jxlayer.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/flamingo"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/substance"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/substance-flamingo"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/trident"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/laf-plugin"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/laf-widget"/>
+	<classpathentry kind="lib" path="/flamingo/lib/batik-all.jar"/>
+	<classpathentry kind="lib" path="/flamingo/lib/forms-1.2.0.jar"/>
+	<classpathentry kind="lib" path="/flamingo/lib/js.jar"/>
+	<classpathentry kind="lib" path="/flamingo/lib/pdf-transcoder.jar"/>
+	<classpathentry kind="lib" path="/flamingo/lib/svnkit.jar"/>
+	<classpathentry kind="lib" path="/flamingo/lib/xerces_2_5_0.jar"/>
+	<classpathentry kind="lib" path="/flamingo/lib/xml-apis-ext.jar"/>
+	<classpathentry kind="lib" path="/flamingo/lib/xml-apis.jar"/>
+	<classpathentry kind="lib" path="lib/filters.jar"/>
+	<classpathentry kind="lib" path="lib/jsyntaxpane-0.9.4.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
