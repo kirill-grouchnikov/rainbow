@@ -31,125 +31,106 @@
  */
 package org.pushingpixels.rainbow;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+
+import org.pushingpixels.rainbow.svg.ic_zoom_in_black_24px;
+import org.pushingpixels.rainbow.svg.ic_zoom_out_black_24px;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
 public class IconSizePanel {
-	public static JPanel getPanel(final RainbowViewer rainbowViewer,
-			int initialSize) {
-		FormLayout lm = new FormLayout(
-				"left:pref, 4dlu, fill:pref, 0dlu, fill:min:grow, 0dlu, fill:pref",
-				"");
-		DefaultFormBuilder builder = new DefaultFormBuilder(lm);
+    public static JPanel getPanel(final RainbowViewer rainbowViewer, int initialSize) {
+        FormLayout lm = new FormLayout(
+                "left:pref, 8dlu, fill:pref, 0dlu, fill:min:grow, 0dlu, fill:pref, 4dlu", "");
+        DefaultFormBuilder builder = new DefaultFormBuilder(lm);
 
-		final JLabel sizeLabel = new JLabel();
-		sizeLabel.setText(initialSize + "*" + initialSize);
-		builder.append(sizeLabel);
+        final JLabel sizeLabel = new JLabel();
+        sizeLabel.setText(initialSize + "x" + initialSize);
+        builder.append(sizeLabel);
 
-		Icon zoomOutIcon = new ImageIcon(Thread.currentThread()
-				.getContextClassLoader().getResource(
-						"org/pushingpixels/rainbow/zoom_out.png"));
-		JLabel zoomOutLabel = new JLabel(zoomOutIcon);
-		builder.append(zoomOutLabel);
+        JLabel zoomOutLabel = new JLabel(ic_zoom_out_black_24px.of(12, 12));
+        builder.append(zoomOutLabel);
 
-		final JSlider iconSizeSlider = new JSlider();
-		iconSizeSlider.setOpaque(false);
-		iconSizeSlider.setMinimum(32);
-		iconSizeSlider.setMaximum(128);
-		iconSizeSlider.setSnapToTicks(true);
-		// this.iconSizeSlider.setPaintLabels(true);
-		// this.iconSizeSlider.setPaintTicks(true);
-		iconSizeSlider.setMajorTickSpacing(32);
-		iconSizeSlider.setMinorTickSpacing(8);
-		iconSizeSlider.setValue(initialSize);
-		iconSizeSlider.setFocusable(false);
+        final JSlider iconSizeSlider = new JSlider();
+        iconSizeSlider.setOpaque(false);
+        iconSizeSlider.setMinimum(32);
+        iconSizeSlider.setMaximum(128);
+        iconSizeSlider.setSnapToTicks(true);
+        iconSizeSlider.setMajorTickSpacing(32);
+        iconSizeSlider.setMinorTickSpacing(8);
+        iconSizeSlider.setValue(initialSize);
+        iconSizeSlider.setFocusable(false);
 
-		iconSizeSlider.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				if (!iconSizeSlider.getModel().getValueIsAdjusting()) {
-					final int newValue = iconSizeSlider.getValue();
-					if (newValue != rainbowViewer.getIconSize()) {
-						SwingUtilities.invokeLater(new Runnable() {
-							public void run() {
-								rainbowViewer.setIconSize(newValue);
-							}
-						});
-					}
-					sizeLabel.setText(newValue + "*" + newValue);
-				}
-			}
-		});
-		builder.append(iconSizeSlider);
+        iconSizeSlider.addChangeListener((ChangeEvent e) -> {
+            if (!iconSizeSlider.getModel().getValueIsAdjusting()) {
+                final int newValue = iconSizeSlider.getValue();
+                if (newValue != rainbowViewer.getIconSize()) {
+                    SwingUtilities.invokeLater(() -> rainbowViewer.setIconSize(newValue));
+                    sizeLabel.setText(newValue + "x" + newValue);
+                }
+            }
+        });
+        builder.append(iconSizeSlider);
 
-		Icon zoomInIcon = new ImageIcon(Thread.currentThread()
-				.getContextClassLoader().getResource(
-						"org/pushingpixels/rainbow/zoom_in.png"));
-		JLabel zoomInLabel = new JLabel(zoomInIcon);
-		builder.append(zoomInLabel);
+        JLabel zoomInLabel = new JLabel(ic_zoom_in_black_24px.of(12, 12));
+        builder.append(zoomInLabel);
 
-		JPanel result = builder.getPanel();
-		result.setOpaque(false);
-		return result;
-	}
+        JPanel result = builder.getPanel();
+        result.setOpaque(false);
+        return result;
+    }
 
-	public static JPanel getPanel(final RainbowSvnViewer rainbowViewer,
-			int initialSize) {
-		FormLayout lm = new FormLayout(
-				"left:pref, 4dlu, fill:pref, 0dlu, fill:min:grow, 0dlu, fill:pref",
-				"");
-		DefaultFormBuilder builder = new DefaultFormBuilder(lm);
+    public static JPanel getPanel(final RainbowSvnViewer rainbowViewer, int initialSize) {
+        FormLayout lm = new FormLayout(
+                "left:pref, 4dlu, fill:pref, 0dlu, fill:min:grow, 0dlu, fill:pref", "");
+        DefaultFormBuilder builder = new DefaultFormBuilder(lm);
 
-		final JLabel sizeLabel = new JLabel();
-		sizeLabel.setText(initialSize + "*" + initialSize);
-		builder.append(sizeLabel);
+        final JLabel sizeLabel = new JLabel();
+        sizeLabel.setText(initialSize + "*" + initialSize);
+        builder.append(sizeLabel);
 
-		Icon zoomOutIcon = new ImageIcon(Thread.currentThread()
-				.getContextClassLoader().getResource(
-						"org/jvnet/rainbow/zoom_out.png"));
-		JLabel zoomOutLabel = new JLabel(zoomOutIcon);
-		builder.append(zoomOutLabel);
+        Icon zoomOutIcon = new ImageIcon(Thread.currentThread().getContextClassLoader()
+                .getResource("org/jvnet/rainbow/zoom_out.png"));
+        JLabel zoomOutLabel = new JLabel(zoomOutIcon);
+        builder.append(zoomOutLabel);
 
-		final JSlider iconSizeSlider = new JSlider();
-		iconSizeSlider.setOpaque(false);
-		iconSizeSlider.setMinimum(32);
-		iconSizeSlider.setMaximum(128);
-		iconSizeSlider.setSnapToTicks(true);
-		// this.iconSizeSlider.setPaintLabels(true);
-		// this.iconSizeSlider.setPaintTicks(true);
-		iconSizeSlider.setMajorTickSpacing(32);
-		iconSizeSlider.setMinorTickSpacing(8);
-		iconSizeSlider.setValue(initialSize);
-		iconSizeSlider.setFocusable(false);
+        final JSlider iconSizeSlider = new JSlider();
+        iconSizeSlider.setOpaque(false);
+        iconSizeSlider.setMinimum(32);
+        iconSizeSlider.setMaximum(128);
+        iconSizeSlider.setSnapToTicks(true);
+        // this.iconSizeSlider.setPaintLabels(true);
+        // this.iconSizeSlider.setPaintTicks(true);
+        iconSizeSlider.setMajorTickSpacing(32);
+        iconSizeSlider.setMinorTickSpacing(8);
+        iconSizeSlider.setValue(initialSize);
+        iconSizeSlider.setFocusable(false);
 
-		iconSizeSlider.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				if (!iconSizeSlider.getModel().getValueIsAdjusting()) {
-					final int newValue = iconSizeSlider.getValue();
-					if (newValue != rainbowViewer.getIconSize()) {
-						SwingUtilities.invokeLater(new Runnable() {
-							public void run() {
-								rainbowViewer.setIconSize(newValue);
-							}
-						});
-					}
-					sizeLabel.setText(newValue + "*" + newValue);
-				}
-			}
-		});
-		builder.append(iconSizeSlider);
+        iconSizeSlider.addChangeListener((ChangeEvent e) -> {
+            if (!iconSizeSlider.getModel().getValueIsAdjusting()) {
+                final int newValue = iconSizeSlider.getValue();
+                if (newValue != rainbowViewer.getIconSize()) {
+                    SwingUtilities.invokeLater(() -> rainbowViewer.setIconSize(newValue));
+                }
+                sizeLabel.setText(newValue + "*" + newValue);
+            }
+        });
+        builder.append(iconSizeSlider);
 
-		Icon zoomInIcon = new ImageIcon(Thread.currentThread()
-				.getContextClassLoader().getResource(
-						"org/jvnet/rainbow/zoom_in.png"));
-		JLabel zoomInLabel = new JLabel(zoomInIcon);
-		builder.append(zoomInLabel);
+        Icon zoomInIcon = new ImageIcon(Thread.currentThread().getContextClassLoader()
+                .getResource("org/jvnet/rainbow/zoom_in.png"));
+        JLabel zoomInLabel = new JLabel(zoomInIcon);
+        builder.append(zoomInLabel);
 
-		JPanel result = builder.getPanel();
-		result.setOpaque(false);
-		return result;
-	}
+        JPanel result = builder.getPanel();
+        result.setOpaque(false);
+        return result;
+    }
 }

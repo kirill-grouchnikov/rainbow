@@ -34,13 +34,12 @@ package org.pushingpixels.rainbow;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import org.pushingpixels.flamingo.api.bcb.BreadcrumbBarExceptionHandler;
 import org.pushingpixels.flamingo.api.bcb.JBreadcrumbBar;
-import org.pushingpixels.flamingo.api.bcb.core.BreadcrumbMultiSvnSelector;
-import org.pushingpixels.lafwidget.animation.AnimationConfigurationManager;
-import org.pushingpixels.lafwidget.animation.AnimationFacet;
-import org.pushingpixels.substance.api.SubstanceLookAndFeel;
+import org.pushingpixels.spoonbill.svn.BreadcrumbMultiSvnSelector;
+import org.pushingpixels.substance.api.SubstanceSlices.AnimationFacet;
+import org.pushingpixels.substance.api.SubstanceCortex;
 import org.pushingpixels.substance.api.skin.BusinessSkin;
+import org.pushingpixels.substance.flamingo.SubstanceFlamingoPlugin;
 
 /**
  * SVG viewer application.
@@ -50,48 +49,42 @@ import org.pushingpixels.substance.api.skin.BusinessSkin;
  */
 public class RainbowSvnViewer extends RainbowViewer {
 
-	@Override
-	protected JBreadcrumbBar<?> getBar() {
-		BreadcrumbMultiSvnSelector selector = new BreadcrumbMultiSvnSelector(
-				new BreadcrumbMultiSvnSelector.SvnRepositoryInfo(
-						"Oxygen",
-						"svn://anonsvn.kde.org/home/kde/trunk/KDE/kdeartwork/IconThemes/primary/",
-						"anonymous", "anonymous"),
-				new BreadcrumbMultiSvnSelector.SvnRepositoryInfo(
-						"Kalzium",
-						"svn://anonsvn.kde.org/home/kde/trunk/KDE/kdeedu/kalzium/data/",
-						"anonymous", "anonymous"));
-		selector.setThrowsExceptions(true);
-		selector.addExceptionHandler(new BreadcrumbBarExceptionHandler() {
-			public void onException(Throwable t) {
-				MessageListDialog.showMessageDialog(RainbowSvnViewer.this,
-						"Error", t);
-			}
-		});
-		return selector;
-	}
+    @Override
+    protected JBreadcrumbBar<?> getBar() {
+        BreadcrumbMultiSvnSelector selector = new BreadcrumbMultiSvnSelector(
+                new BreadcrumbMultiSvnSelector.SvnRepositoryInfo("Oxygen",
+                        "svn://anonsvn.kde.org/home/kde/trunk/KDE/kdeartwork/IconThemes/primary/",
+                        "anonymous", "anonymous".toCharArray()),
+                new BreadcrumbMultiSvnSelector.SvnRepositoryInfo("Kalzium",
+                        "svn://anonsvn.kde.org/home/kde/trunk/KDE/kdeedu/kalzium/data/",
+                        "anonymous", "anonymous".toCharArray()),
+                new BreadcrumbMultiSvnSelector.SvnRepositoryInfo("Crystal",
+                        "svn://anonsvn.kde.org/home/kde/", "anonymous", "anonymous".toCharArray()));
+        selector.setThrowsExceptions(true);
+        selector.addExceptionHandler((Throwable t) -> MessageListDialog
+                .showMessageDialog(RainbowSvnViewer.this, "Error", t));
+        return selector;
+    }
 
-	/**
-	 * The main method to run the SVG viewer.
-	 * 
-	 * @param args
-	 *            Ignored.
-	 */
-	public static void main(String... args) {
-		AnimationConfigurationManager.getInstance().setTimelineDuration(1000);
-		AnimationConfigurationManager.getInstance().allowAnimations(
-				AnimationFacet.GHOSTING_ICON_ROLLOVER);
+    /**
+     * The main method to run the SVG viewer.
+     * 
+     * @param args
+     *            Ignored.
+     */
+    public static void main(String... args) {
+        JFrame.setDefaultLookAndFeelDecorated(true);
+        SubstanceCortex.GlobalScope.setTimelineDuration(1000);
+        SubstanceCortex.GlobalScope.registerComponentPlugin(new SubstanceFlamingoPlugin());
+        SubstanceCortex.GlobalScope.allowAnimations(AnimationFacet.GHOSTING_ICON_ROLLOVER);
 
-		JFrame.setDefaultLookAndFeelDecorated(true);
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				SubstanceLookAndFeel.setSkin(new BusinessSkin());
-				RainbowSvnViewer test = new RainbowSvnViewer();
-				test.setSize(700, 400);
-				test.setLocationRelativeTo(null);
-				test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				test.setVisible(true);
-			}
-		});
-	}
+        SwingUtilities.invokeLater(() -> {
+            SubstanceCortex.GlobalScope.setSkin(new BusinessSkin());
+            RainbowSvnViewer test = new RainbowSvnViewer();
+            test.setSize(700, 400);
+            test.setLocationRelativeTo(null);
+            test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            test.setVisible(true);
+        });
+    }
 }

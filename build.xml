@@ -25,7 +25,7 @@
 	<!-- JDK definitions -->
 
 	<path id="jdk.classpath">
-		<fileset dir="${jdk.home}">
+		<fileset dir="${java.home}">
 			<include name="jre/lib/charsets.jar" />
 			<include name="jre/lib/deploy.jar" />
 			<include name="jre/lib/javaws.jar" />
@@ -40,7 +40,7 @@
 		</fileset>
 	</path>
 
-	<property name="project.jdk.home" value="${jdk.home}" />
+	<property name="project.jdk.home" value="${java.home}" />
 	<property name="project.jdk.classpath" value="jdk.classpath" />
 	<!-- Project Libraries -->
 	<!-- Global Libraries -->
@@ -54,12 +54,20 @@
 	<property name="rainbow.drop.dir" value="${module.rainbow.basedir}/drop" />
 	<property name="rainbow.lib.dir" value="${module.rainbow.basedir}/lib" />
 	<property name="rainbow.src.dir" value="${module.rainbow.basedir}/src/" />
-	<property name="rainbow.version" value="1.3" />
-	<property name="rainbow.versionKey" value="1.3dev Darkstone" />
+	<property name="rainbow.version" value="1.4" />
+	<property name="rainbow.versionKey" value="1.4dev Inkstone" />
+    <property name="substance.version" value="8.0.00-dev" />
+    <property name="flamingo.version" value="6.0.00-dev" />
+    <property name="trident.version" value="1.5.00-dev" />
+    <property name="spoonbill.version" value="1.0.00-dev" />
+    <property name="ibis.version" value="1.0.00-dev" />
 
 	<property name="flamingo.dir" value="${module.rainbow.basedir}/../flamingo" />
-	<property name="substance.dir" value="${module.rainbow.basedir}/../substance" />
+    <property name="substance.dir" value="${module.rainbow.basedir}/../substance" />
+    <property name="substance-flamingo.dir" value="${module.rainbow.basedir}/../substance-flamingo" />
 	<property name="trident.dir" value="${module.rainbow.basedir}/../trident" />
+    <property name="spoonbill.basedir" value="${module.rainbow.basedir}/../spoonbill" />
+    <property name="ibis.basedir" value="${module.rainbow.basedir}/../ibis" />
 
 	<path id="rainbow.module.bootclasspath">
 		<!-- Paths to be included in compilation bootclasspath -->
@@ -73,17 +81,22 @@
 		<pathelement location="${rainbow.lib.dir}/jxlayer.jar" />
 		<pathelement location="${rainbow.lib.dir}/filters.jar" />
         <pathelement location="${rainbow.lib.dir}/jsyntaxpane-0.9.4.jar" />
-		<pathelement location="${flamingo.dir}/lib/batik-all.jar" />
-		<pathelement location="${flamingo.dir}/lib/forms-1.2.0.jar" />
-		<pathelement location="${flamingo.dir}/lib/js.jar" />
-		<pathelement location="${flamingo.dir}/lib/pdf-transcoder.jar" />
-		<pathelement location="${flamingo.dir}/lib/svnkit.jar" />
-		<pathelement location="${flamingo.dir}/lib/xerces_2_5_0.jar" />
-		<pathelement location="${flamingo.dir}/lib/xml-apis-ext.jar" />
-		<pathelement location="${flamingo.dir}/lib/xml-apis.jar" />
-		<pathelement location="${flamingo.dir}/drop/flamingo.jar" />
-		<pathelement location="${substance.dir}/drop/substance.jar" />
-		<pathelement location="${trident.dir}/drop/trident.jar" />
+        <pathelement location="${rainbow.lib.dir}/jgoodies-forms-1.8.0.jar" />
+        <pathelement location="${rainbow.lib.dir}/jgoodies-common-1.8.1.jar" />
+		<pathelement location="${ibis.basedir}/lib/batik-all-1.9.jar" />
+		<pathelement location="${ibis.basedir}/lib/js.jar" />
+		<pathelement location="${ibis.basedir}/lib/pdf-transcoder.jar" />
+		<pathelement location="${spoonbill.basedir}/lib/svnkit.jar" />
+		<pathelement location="${ibis.basedir}/lib/xercesImpl-2.9.1.jar" />
+		<pathelement location="${ibis.basedir}/lib/xml-apis-ext-1.3.04.jar" />
+        <pathelement location="${ibis.basedir}/lib/xml-apis-1.3.04.jar" />
+        <pathelement location="${ibis.basedir}/lib/xmlgraphics-commons-2.2.jar" />
+		<pathelement location="${flamingo.dir}/drop/${flamingo.version}/flamingo-${flamingo.version}.jar" />
+        <pathelement location="${substance.dir}/drop/${substance.version}/substance-${substance.version}.jar" />
+        <pathelement location="${substance-flamingo.dir}/drop/${substance.version}/substance-flamingo-${substance.version}.jar" />
+		<pathelement location="${trident.dir}/drop/${trident.version}/trident-${trident.version}.jar" />
+        <pathelement location="${spoonbill.basedir}/drop/${spoonbill.version}/spoonbill-${spoonbill.version}.jar" />
+        <pathelement location="${ibis.basedir}/drop/${ibis.version}/ibis-${ibis.version}.jar" />
 	</path>
 
 	<patternset id="excluded.from.module.rainbow" />
@@ -103,7 +116,7 @@
 
 	<target name="compile.module.rainbow.production" description="compile module rainbow production classes">
 		<mkdir dir="${rainbow.output.dir}" />
-		<javac destdir="${rainbow.output.dir}" encoding="${javac.encoding}" debug="${javac.debug}" nowarn="${javac.generate.no.warnings}" memoryMaximumSize="${javac.max.memory}" fork="true" executable="${module.jdk.home.rainbow}/bin/javac">
+		<javac destdir="${rainbow.output.dir}" encoding="${javac.encoding}" debug="${javac.debug}" nowarn="${javac.generate.no.warnings}" memoryMaximumSize="${javac.max.memory}" fork="true">
 			<compilerarg line="${javac.args.rainbow}" />
 			<bootclasspath refid="rainbow.module.bootclasspath" />
 			<classpath refid="rainbow.module.classpath" />
@@ -137,10 +150,8 @@
 				<attribute name="Rainbow-Version" value="${rainbow.versionKey}" />
 				<attribute name="Rainbow-BuildStamp" value="${build.time}" />
 				<attribute name="Main-Class" value="org.jvnet.rainbow.RainbowViewer" />
-				<attribute name="Class-Path" value="../lib/batik-all.jar ../lib/flamingo.jar ../lib/js.jar ../lib/jxlayer.jar ../lib/pdf-transcoder.jar ../lib/substance.jar ../lib/substance-flamingo.jar ../lib/xerces_2_5_0.jar ../lib/filters.jar ../lib/forms-1.1.0.jar ../lib/svnkit.jar ../lib/xml-apis.jar ../lib/xml-apis-ext.jar" />
 			</manifest>
 		</jar>
-		<copy file="${rainbow.drop.dir}/rainbow.jar" todir="${module.rainbow.basedir}/www/webstart" />
 	</target>
 
 	<target name="distro" description="create distribution">

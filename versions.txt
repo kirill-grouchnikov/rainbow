@@ -1,0 +1,5 @@
+1.0 - Moonstone
+1.1 - Nightstone
+1.2 - Blackstone
+1.3 - Darkstone
+1.4 - Inkstone

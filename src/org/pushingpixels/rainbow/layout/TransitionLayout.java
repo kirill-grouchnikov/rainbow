@@ -31,8 +31,16 @@
  */
 package org.pushingpixels.rainbow.layout;
 
-import java.awt.*;
-import java.util.*;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.LayoutManager;
+import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
@@ -230,13 +238,11 @@ public class TransitionLayout implements LayoutManager {
 		this.pendingAnimationCount--;
 		if (this.pendingAnimationCount == 0) {
 			if (this.hasPendingLayoutRequests()) {
-				SwingUtilities.invokeLater(new Runnable() {
-					public void run() {
-						layoutContainer(container);
-						layoutFinished();
-						container.repaint();
-					}
-				});
+                SwingUtilities.invokeLater(() -> {
+                    layoutContainer(container);
+                    layoutFinished();
+                    container.repaint();
+                });
 			} else {
 				fireEvent(null, TransitionLayoutEvent.TRANSITION_ENDED);
 			}
@@ -254,11 +260,8 @@ public class TransitionLayout implements LayoutManager {
 	protected void repaint(Component comp) {
 		if (this.doImmediateRepaint && (comp instanceof JComponent)) {
 			final JComponent jc = (JComponent) comp;
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					jc.paintImmediately(0, 0, jc.getWidth(), jc.getHeight());
-				}
-			});
+			SwingUtilities.invokeLater(() -> 
+					jc.paintImmediately(0, 0, jc.getWidth(), jc.getHeight()));
 
 			return;
 		}
