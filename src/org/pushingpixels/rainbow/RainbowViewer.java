@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2010 Rainbow Kirill Grouchnikov 
+ * Copyright (c) 2005-2018 Rainbow Kirill Grouchnikov 
  * and Alexander Potochkin. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -69,6 +69,7 @@ import org.pushingpixels.rainbow.layout.TransitionLayoutEvent;
 import org.pushingpixels.rainbow.layout.TransitionLayoutListener;
 import org.pushingpixels.rainbow.svg.ic_search_black_24px;
 import org.pushingpixels.substance.api.SubstanceCortex;
+import org.pushingpixels.substance.api.SubstanceCortex.ComponentOrParentChainScope;
 import org.pushingpixels.substance.api.SubstanceSlices.AnimationFacet;
 import org.pushingpixels.substance.api.SubstanceSlices.DecorationAreaType;
 import org.pushingpixels.substance.api.skin.BusinessSkin;
@@ -169,7 +170,7 @@ public class RainbowViewer extends JFrame implements ProgressListener {
                 "fill:pref:grow, 2dlu, fill:pref, 4dlu, fill:pref, 2dlu", "");
         DefaultFormBuilder toolbarBuilder = new DefaultFormBuilder(toolbarLayout);
         JToolBar toolbar = new JToolBar();
-        SubstanceCortex.ComponentScope.setDecorationType(toolbar, DecorationAreaType.HEADER);
+        ComponentOrParentChainScope.setDecorationType(toolbar, DecorationAreaType.HEADER);
         toolbar.setLayout(new BorderLayout());
 
         toolbarBuilder.append(bar);
@@ -245,7 +246,7 @@ public class RainbowViewer extends JFrame implements ProgressListener {
         statusBarBuilder.append(IconSizePanel.getPanel(this, initialSize));
 
         JPanel statusBarPanel = statusBarBuilder.getPanel();
-        SubstanceCortex.ComponentScope.setDecorationType(statusBarPanel, DecorationAreaType.GENERAL);
+        ComponentOrParentChainScope.setDecorationType(statusBarPanel, DecorationAreaType.GENERAL);
         this.add(statusBarPanel, BorderLayout.SOUTH);
     }
 

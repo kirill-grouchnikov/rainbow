@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2010 Rainbow Kirill Grouchnikov 
+ * Copyright (c) 2005-2018 Rainbow Kirill Grouchnikov 
  * and Alexander Potochkin. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
 
-import org.pushingpixels.ibis.SvgStreamTranscoder;
+import org.pushingpixels.ibis.transcoder.SvgStreamTranscoder;
+import org.pushingpixels.ibis.transcoder.java.JavaLanguageRenderer;
 
 import jsyntaxpane.syntaxkits.JavaSyntaxKit;
 import jsyntaxpane.syntaxkits.XmlSyntaxKit;
@@ -120,7 +121,8 @@ public class RainbowUtils {
             final PrintWriter pw = new PrintWriter(javaBaos);
 
             SvgStreamTranscoder transcoder = new SvgStreamTranscoder(
-                    new ByteArrayInputStream(svgBytes), javaClassFilename);
+                    new ByteArrayInputStream(svgBytes), javaClassFilename,
+                    new JavaLanguageRenderer());
 
             transcoder.setPrintWriter(pw);
             transcoder.transcode(RainbowUtils.class.getResourceAsStream(

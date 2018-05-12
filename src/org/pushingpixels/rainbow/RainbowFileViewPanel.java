@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2010 Rainbow Kirill Grouchnikov 
+ * Copyright (c) 2005-2018 Rainbow Kirill Grouchnikov 
  * and Alexander Potochkin. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,7 @@ import org.pushingpixels.flamingo.api.common.ProgressListener;
 import org.pushingpixels.flamingo.api.common.RichTooltip;
 import org.pushingpixels.flamingo.api.common.StringValuePair;
 import org.pushingpixels.flamingo.api.common.icon.ResizableIcon;
-import org.pushingpixels.ibis.SvgBatikResizableIcon;
+import org.pushingpixels.ibis.icon.SvgBatikResizableIcon;
 import org.pushingpixels.rainbow.layout.TransitionLayoutManager;
 
 /**
@@ -57,8 +57,7 @@ import org.pushingpixels.rainbow.layout.TransitionLayoutManager;
  */
 public class RainbowFileViewPanel<T> extends AbstractFileViewPanel<T> {
     /**
-     * The breadcrumb bar that is used to browse local or remote repository of
-     * SVG files.
+     * The breadcrumb bar that is used to browse local or remote repository of SVG files.
      */
     protected JBreadcrumbBar<T> bar;
 
@@ -66,8 +65,7 @@ public class RainbowFileViewPanel<T> extends AbstractFileViewPanel<T> {
      * Creates a new panel.
      * 
      * @param bar
-     *            The breadcrumb bar that is used to browse local or remote
-     *            repository of SVG files.
+     *            The breadcrumb bar that is used to browse local or remote repository of SVG files.
      * @param startingDimension
      *            Initial dimension for SVG icons.
      * @param progressListener
@@ -80,20 +78,11 @@ public class RainbowFileViewPanel<T> extends AbstractFileViewPanel<T> {
         TransitionLayoutManager.getInstance().track(this, true);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.jvnet.flamingo.common.AbstractFileViewPanel#configureCommandButton
-     * (org.jvnet.flamingo.common.AbstractFileViewPanel.Leaf,
-     * org.jvnet.flamingo.common.JCommandButton,
-     * org.jvnet.flamingo.common.icon.ResizableIcon)
-     */
     @Override
     protected void configureCommandButton(final AbstractFileViewPanel.Leaf leaf,
             JCommandButton button, final ResizableIcon icon) {
-        RichTooltip richTooltip = new RichTooltip("Transcode", "Click to generate Java2D class");
-        button.setActionRichTooltip(richTooltip);
+        button.setActionRichTooltip(new RichTooltip.RichTooltipBuilder().setTitle("Transcode")
+                .addDescriptionSection("Click to generate Java2D class").build());
         button.addActionListener((ActionEvent e) -> {
             SwingUtilities.invokeLater(() -> {
                 // can't pass the stream contents since the
@@ -104,39 +93,17 @@ public class RainbowFileViewPanel<T> extends AbstractFileViewPanel<T> {
         });
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.jvnet.flamingo.common.AbstractFileViewPanel#toShowFile(org.jvnet.
-     * flamingo.common.StringValuePair)
-     */
     @Override
     protected boolean toShowFile(StringValuePair<T> pair) {
         String name = pair.getKey();
         return name.endsWith(".svg") || name.endsWith(".svgz");
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.jvnet.flamingo.common.AbstractFileViewPanel#getLeafContent(java.lang
-     * .Object)
-     */
     @Override
     protected java.io.InputStream getLeafContent(T leaf) {
         return bar.getCallback().getLeafContent(leaf);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.jvnet.flamingo.common.AbstractFileViewPanel#getResizableIcon(org.
-     * jvnet.flamingo.common.AbstractFileViewPanel.Leaf, java.io.InputStream,
-     * org.jvnet.flamingo.common.CommandButtonDisplayState, java.awt.Dimension)
-     */
     @Override
     protected ResizableIcon getResizableIcon(AbstractFileViewPanel.Leaf leaf, InputStream stream,
             CommandButtonDisplayState state, Dimension dimension) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2010 Rainbow Kirill Grouchnikov 
+ * Copyright (c) 2005-2018 Rainbow Kirill Grouchnikov 
  * and Alexander Potochkin. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -65,7 +65,7 @@ import javax.swing.filechooser.FileFilter;
 import org.jdesktop.jxlayer.JXLayer;
 import org.jdesktop.jxlayer.plaf.BufferedLayerUI;
 import org.jdesktop.jxlayer.plaf.effect.BufferedImageOpEffect;
-import org.pushingpixels.ibis.SvgBatikResizableIcon;
+import org.pushingpixels.ibis.icon.SvgBatikResizableIcon;
 
 import com.jhlabs.image.InvertFilter;
 import com.jhlabs.image.KaleidoscopeFilter;

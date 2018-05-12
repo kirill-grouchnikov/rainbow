@@ -55,12 +55,12 @@
 	<property name="rainbow.lib.dir" value="${module.rainbow.basedir}/lib" />
 	<property name="rainbow.src.dir" value="${module.rainbow.basedir}/src/" />
 	<property name="rainbow.version" value="1.4" />
-	<property name="rainbow.versionKey" value="1.4dev Inkstone" />
-    <property name="substance.version" value="8.0.00-dev" />
-    <property name="flamingo.version" value="6.0.00-dev" />
-    <property name="trident.version" value="1.5.00-dev" />
-    <property name="spoonbill.version" value="1.0.00-dev" />
-    <property name="ibis.version" value="1.0.00-dev" />
+	<property name="rainbow.versionKey" value="1.4 Inkstone" />
+    <property name="substance.version" value="8.0.00" />
+    <property name="flamingo.version" value="5.3.00" />
+    <property name="trident.version" value="1.5.00" />
+    <property name="spoonbill.version" value="1.0.00" />
+    <property name="ibis.version" value="1.0.00" />
 
 	<property name="flamingo.dir" value="${module.rainbow.basedir}/../flamingo" />
     <property name="substance.dir" value="${module.rainbow.basedir}/../substance" />
